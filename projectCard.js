@@ -90,7 +90,6 @@ class ProjectCard extends HTMLElement{
             border: 1px solid black;
             padding: 1%;
             margin-top: 1%;
-            width: 25%;
         }
         `;
         this.shadowRoot.appendChild(styleSheet);
