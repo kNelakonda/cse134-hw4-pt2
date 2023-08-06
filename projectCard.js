@@ -2,13 +2,10 @@ window.addEventListener('DOMContentLoaded', init);
 
 
 function init() {
-    console.log("hello World");
     saveLocal();
-    getRemote().then( projectData => {
-        document.getElementById("remote-button").disabled= false;
-        console.log(projectData);
-        
-    });
+    getRemote().then( 
+        document.getElementById("remote-button").disabled= false
+    );
     
 }
 
@@ -112,7 +109,6 @@ async function getRemote(){
                 'X-Master-Key': key,
             }
         }).then(response => {
-            console.log(response.json);
             return response.json();
         });
 
@@ -127,9 +123,7 @@ async function getRemote(){
 function showProject(){
     let card = document.createElement("project-card");
     let body = document.getElementsByTagName('main')[0];
-    console.log(body);
     body.appendChild(card);
-    console.log("it's working!");
 }
 
 
