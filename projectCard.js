@@ -102,16 +102,22 @@ async function getRemote(){
     const binID = "64cf310e9d312622a38cae1f";
     const key = "$2b$10$J/ZtAuCvdOmlswtSwYsTj.ubRUwEshZ4KJ/0pmKQC/oJKjkcF00ee";
     const root = "https://api.jsonbin.io/v3/b/";
-    let data = await fetch(root + binID ,
-        {
-            method: "GET",
-            headers: {
-                'X-Master-Key': key,
-            }
-        }).then(response => {
-            return response.json();
-        });
-
+    let data;
+    try{
+         data = await fetch(root + binID ,
+            {
+                method: "GET",
+                headers: {
+                    'X-Master-Key': key,
+                }
+            }).then(response => {
+                return response.json();
+            });
+    } catch(error){
+        console.error("An error fetching data. Error: " + error);
+    }
+    
+    console.log(data.record);
     if (!data.record) {
         throw Error("Did not receive data");
     }
