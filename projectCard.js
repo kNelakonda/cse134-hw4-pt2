@@ -56,25 +56,33 @@ class ProjectCard extends HTMLElement{
         this.attachShadow({mode: "open"});
 
         const projectParts = JSON.parse(localStorage.getItem("project"));
-
+        let cardHolder = document.createElement("article");
+        this.shadowRoot.appendChild(cardHolder)
         let projectTitle = document.createElement("h2");
         projectTitle.innerHTML = projectParts["project-title"];
-        this.shadowRoot.appendChild(projectTitle);
+        cardHolder.appendChild(projectTitle);
         let image = document.createElement("img");
         image.src = projectParts["project-img"];
         image.alt = projectParts["project-img-alt"];
-        this.shadowRoot.appendChild(image);
+        cardHolder.appendChild(image);
         let description = document.createElement("p");
         description.innerHTML = projectParts["project-desc"];
-        this.shadowRoot.appendChild(description);
+        cardHolder.appendChild(description);
         let readMore = document.createElement("a");
         readMore.href = projectParts["project-link"];
         readMore.innerHTML = "Read more about the project here";
-        this.shadowRoot.appendChild(readMore);
+        cardHolder.appendChild(readMore);
         let styleSheet = document.createElement("style");
         styleSheet.innerHTML = `
         h2 {
             color: red;
+        }
+
+        article {
+            border: 1px solid black;
+            padding: 1%;
+            margin-top: 1%;
+            width: 25%;
         }
         `;
         this.shadowRoot.appendChild(styleSheet);
@@ -84,7 +92,7 @@ class ProjectCard extends HTMLElement{
 
 function showProject(){
     let card = document.createElement("project-card");
-    let body = document.getElementsByTagName('body')[0];
+    let body = document.getElementsByTagName('main')[0];
     console.log(body);
     body.appendChild(card);
     console.log("it's working!");

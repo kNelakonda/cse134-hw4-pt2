@@ -17,20 +17,25 @@
         text-align: center;
       }
 
-      project-card {
+      article {
         border: 1px solid black;
+        padding: 1%;
+        width: 50%;
       }
+
     </style>
     <script type="text/JavaScript" src="./projectCard.js" type="module"></script>
 
 </head>
 
 <body>
+  <header>
   <h1>Project Gallery</h1>
   <!--If you are grading this early, I have reached out to a tutor about an extended deadline that I have due to my OSD accommodations-->
   <button type="button" id="local-button" onclick="showProject()" disabled>Load Local</button>
   <button type="button" id="remote-button" onclick="showProject()" disabled>Load Remote</button>
-
+  </header>
+  <main></main>
   <!--
       This page will contain a list of cards which will contain cards that overview each project in 
       your portfolio. You will dynamically create these cards as CustomElements using JavaScript 
