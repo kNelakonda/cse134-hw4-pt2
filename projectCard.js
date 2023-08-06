@@ -4,10 +4,15 @@ window.addEventListener('DOMContentLoaded', init);
 function init() {
     console.log("hello World");
     saveLocal();
+    getRemote().then( projectData => {
+        document.getElementById("remote-button").disabled= false;
+        console.log(projectData);
+        
+    });
     
 }
 
-function createData(title, image, alt, description, link){
+function createLocalData(title, image, alt, description, link){
     let myProject = {
         "project-title": "Project Title",
         "project-img": "./assets/ece196project.png",
@@ -39,12 +44,12 @@ function createData(title, image, alt, description, link){
         "project-desc": "This is a wearable device that connects to an iOS application that will count your reps for specific workouts, as well as the quality of the reps, and display it on the app.",
         "project-link": "https://github.com/gman-ui/ECE196Project/blob/main/index.md"
     }
-
     return myProject;
 }
 
+
 function saveLocal(){
-    const project = createData();
+    const project = createLocalData();
     const projectString = JSON.stringify(project);
     localStorage.setItem("project", projectString);
     document.getElementById("local-button").disabled= false;
@@ -55,7 +60,13 @@ class ProjectCard extends HTMLElement{
         super();
         this.attachShadow({mode: "open"});
 
-        const projectParts = JSON.parse(localStorage.getItem("project"));
+        let projectParts;
+        if(localStorage.getItem("project")){
+           projectParts = JSON.parse(localStorage.getItem("project"));
+        } else {
+            projectParts = JSON.parse(getRemote());
+        }
+         
         let cardHolder = document.createElement("article");
         this.shadowRoot.appendChild(cardHolder)
         let projectTitle = document.createElement("h2");
@@ -90,6 +101,29 @@ class ProjectCard extends HTMLElement{
     }
 }
 
+async function getRemote(){
+    const binID = "64cf310e9d312622a38cae1f";
+    const key = "$2b$10$J/ZtAuCvdOmlswtSwYsTj.ubRUwEshZ4KJ/0pmKQC/oJKjkcF00ee";
+    const root = "https://api.jsonbin.io/v3/b/";
+    let data = await fetch(root + binID ,
+        {
+            method: "GET",
+            headers: {
+                'X-Master-Key': key,
+            }
+        }).then(response => {
+            console.log(response.json);
+            return response.json();
+        });
+
+    if (!data.record) {
+        throw Error("Did not receive data");
+    }
+    return data.record;
+
+}
+
+
 function showProject(){
     let card = document.createElement("project-card");
     let body = document.getElementsByTagName('main')[0];
@@ -100,3 +134,4 @@ function showProject(){
 
 
 window.customElements.define("project-card", ProjectCard);
+
